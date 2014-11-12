@@ -1,0 +1,15 @@
+language: python
+python:
+  - "2.7"
+before_script:
+  - mysql -e 'create database masterfirefoxos character set utf8;'
+install:
+  - pip install -r requirements/base.txt
+  - pip install -r requirements/dev.txt
+  - pip install coveralls
+env:
+  - DEBUG=False SECRET_KEY='FOO' ALLOWED_HOSTS=localhost, DATABASE_URL=mysql://root@localhost/masterfirefoxos
+script:
+  flake8 && coverage run manage.py test
+after_success:
+  coveralls

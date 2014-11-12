@@ -1,0 +1,17 @@
+db:
+  image: mysql:5
+  environment:
+    - MYSQL_ROOT_PASSWORD=passwd
+    - MYSQL_DATABASE=masterfirefoxos
+web:
+  build: .
+  ports:
+    - "8000:8000"
+  volumes:
+    - .:/app
+  links:
+    - db
+  environment:
+    - DATABASE_URL=mysql://root:passwd@db/masterfirefoxos
+  command:
+    python manage.py runserver 0.0.0.0:8000
